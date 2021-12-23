@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'org.springframework.boot' version '2.4.2'
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+group 'com.trecapps.falsehoods'
+version buildVersion
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url azureRepoUrl
+        name 'tcMavenRepo'
+        credentials {
+            username azureRepoUsername
+            password azureRepoPassword
+        }
+    }
+}
+
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok:+'
+    annotationProcessor 'org.projectlombok:lombok:+'
+
+    implementation 'com.trecapps.base:InfoResource:+'
+    implementation 'com.trecapps.base:FalsehoodModel:0.0.9'
+
+    // Spring Boot features
+    implementation 'org.springframework.boot:spring-boot-starter-web:+'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:+'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:+'
+
+    // DB Support
+    implementation 'org.hibernate:hibernate-core:5.4.11.Final'
+    implementation 'org.hibernate:hibernate-entitymanager:5.4.11.Final'
+    implementation 'javax.validation:validation-api:+'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
+    implementation 'com.azure:azure-spring-data-cosmos:+'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
