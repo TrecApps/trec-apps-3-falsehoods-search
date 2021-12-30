@@ -20,6 +20,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11'
+                
+      - name: Set Up Gradle Properties
+        env:
+          GRADLE_PROPS: ${{secrets.GRADLE_PROPS}}
+        shell: bash
+        run : |
+          mkdir -p ~/.gradle/
+          echo "GRADLE_USER_HOME=${HOME}/.gradle" >> $GITHUB_ENV
+          echo "${GRADLE_PROPS}" > ~/.gradle/gradle.properties 
 
       - name: Build with Gradle
         run: gradle build
