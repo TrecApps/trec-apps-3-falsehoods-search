@@ -12,6 +12,8 @@ import com.trecapps.falsehoods.falsehoodSearch.config.StorageClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -481,16 +483,18 @@ public class FalsehoodService {
 		return fRepo.getSubmittedFalsehood(PageRequest.of(page, size));
 	}
 	
-	public Mono<FullFalsehood> getFalsehoodById(BigInteger id)
+	public ResponseEntity<FullFalsehood> getFalsehoodById(BigInteger id)
 	{
 		if(!fRepo.existsById(id))
-			return Mono.empty();
+			return new ResponseEntity<FullFalsehood>(HttpStatus.NOT_FOUND);
 
-		return s3BucketManager.getFalsehoodContents(id + "-Falsehood")
-				.map((String contents) -> {
-					return new FullFalsehood(contents, fRepo.getById(id), recordsRepo.findById(id).get());
-				});
+		ResponseEntity<String> contents = s3BucketManager.getContents(id + "-Falsehood", "Falsehoods");
 
+		if(contents.getStatusCode().is2xxSuccessful())
+			return new ResponseEntity<FullFalsehood>(new FullFalsehood(contents.getBody(),
+				fRepo.getById(id), recordsRepo.findById(id).get()), HttpStatus.OK);
+		else
+			return new ResponseEntity<FullFalsehood>(contents.getStatusCode());
 
 	}
 

@@ -8,6 +8,7 @@ import com.trecapps.falsehoods.falsehoodSearch.services.PublicFalsehoodService;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchPublicFalsehood;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -15,7 +16,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Search/Public")
+@RequestMapping("/search/Public")
 public class PublicFalsehoodController {
 
     @Autowired
@@ -41,7 +42,7 @@ public class PublicFalsehoodController {
     }
 
     @GetMapping("/Media/id/{id}")
-    public Mono<FullPublicFalsehood> GetFalsehood(@PathVariable("id") BigInteger id)
+    public ResponseEntity<FullPublicFalsehood> GetFalsehood(@PathVariable("id") BigInteger id)
     {
         return publicFalsehoodService.getFalsehoodById(id);
     }

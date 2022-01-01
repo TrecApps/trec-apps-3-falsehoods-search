@@ -5,6 +5,7 @@ import com.trecapps.base.FalsehoodModel.models.FullFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.FalsehoodService;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchFalsehood;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +39,7 @@ public class MediaFalsehoodController {
     }
 
     @GetMapping("/Media/id/{id}")
-    public Mono<FullFalsehood> GetFalsehood(@PathVariable("id") BigInteger id)
+    public ResponseEntity<FullFalsehood> GetFalsehood(@PathVariable("id") BigInteger id)
     {
         return falsehoodService.getFalsehoodById(id);
     }
