@@ -1,11 +1,10 @@
 package com.trecapps.falsehoods.falsehoodSearch.services;
 
 
-import com.trecapps.base.FalsehoodModel.models.Falsehood;
-import com.trecapps.base.FalsehoodModel.models.FullFalsehood;
-import com.trecapps.base.FalsehoodModel.models.Severity;
-import com.trecapps.base.FalsehoodModel.repos.FalsehoodRecordsRepo;
-import com.trecapps.base.FalsehoodModel.repos.FalsehoodRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.trecapps.base.FalsehoodModel.models.*;
+import com.trecapps.falsehoods.falsehoodSearch.repos.FalsehoodRecordsRepo;
+import com.trecapps.falsehoods.falsehoodSearch.repos.FalsehoodRepo;
 import com.trecapps.base.InfoResource.models.MediaOutlet;
 import com.trecapps.base.InfoResource.models.PublicFigure;
 import com.trecapps.falsehoods.falsehoodSearch.config.StorageClient;
@@ -491,8 +490,13 @@ public class FalsehoodService {
 		ResponseEntity<String> contents = s3BucketManager.getContents(id + "-Falsehood", "Falsehoods");
 
 		if(contents.getStatusCode().is2xxSuccessful())
-			return new ResponseEntity<FullFalsehood>(new FullFalsehood(contents.getBody(),
-				fRepo.getById(id), recordsRepo.findById(id).get()), HttpStatus.OK);
+			try {
+				return new ResponseEntity<FullFalsehood>(new FullFalsehood(contents.getBody(),
+						fRepo.getById(id), new FalsehoodRecords(id, (byte)0, recordsRepo.retrieveRecords(id))), HttpStatus.OK);
+			}catch(JsonProcessingException ex)
+			{
+				return new ResponseEntity<FullFalsehood>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		else
 			return new ResponseEntity<FullFalsehood>(contents.getStatusCode());
 

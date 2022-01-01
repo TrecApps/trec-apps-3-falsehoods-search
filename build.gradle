@@ -28,8 +28,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:+'
     annotationProcessor 'org.projectlombok:lombok:+'
 
-    implementation 'com.trecapps.base:InfoResource:+'
-    implementation 'com.trecapps.base:FalsehoodModel:0.0.9'
+    implementation 'com.trecapps.base:InfoResource:0.1.1'
+    implementation 'com.trecapps.base:FalsehoodModel:0.1.7'
+
 
     // Spring Boot features
     implementation 'org.springframework.boot:spring-boot-starter-web:+'
