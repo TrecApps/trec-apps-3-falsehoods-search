@@ -2,10 +2,12 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'org.springframework.boot' version '2.4.2'
+    id 'jacoco'
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'jacoco'
 
 group 'com.trecapps.falsehoods'
 version '0.0.2'
@@ -57,3 +59,19 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jacoco {
+    toolVersion = '0.8.5'
+}
+
+jacocoTestReport {
+    def buildDir = "$buildDir".toString()
+    reports {
+        xml.setEnabled(true)
+        xml.destination file(buildDir + "/jacoco/jacoco.xml")
+        csv.setEnabled(false)
+        html.setEnabled(true)
+    }
+}
+
+test.finalizedBy(project.tasks.jacocoTestReport)
