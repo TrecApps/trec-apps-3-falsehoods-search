@@ -16,7 +16,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("/search/Public")
+@RequestMapping("/Search/Public")
 public class PublicFalsehoodController {
 
     @Autowired
@@ -34,14 +34,14 @@ public class PublicFalsehoodController {
         return publicFalsehoodService.searchRejectedFalsehoodsByAttribute(searchObj);
     }
 
-    @GetMapping("/Media/searchSubmitted")
+    @GetMapping("/SearchSubmitted")
     public List<PublicFalsehood> searchSubmittedFalsehoods(@RequestParam(value="size", defaultValue="20", required=false)int size,
                                                      @RequestParam(value="page", defaultValue="0", required=false)int page)
     {
         return publicFalsehoodService.getSubmittedFalsehoods(size, page);
     }
 
-    @GetMapping("/Media/id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<FullPublicFalsehood> GetFalsehood(@PathVariable("id") BigInteger id)
     {
         return publicFalsehoodService.getFalsehoodById(id);

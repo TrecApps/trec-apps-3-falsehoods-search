@@ -31,14 +31,14 @@ public class MediaFalsehoodController {
         return falsehoodService.getRejectedFalsehoodsBySearchFeatures(searchObj);
     }
 
-    @GetMapping("/Media/searchSubmitted")
+    @GetMapping("/SearchSubmitted")
     public List<Falsehood> searchSubmittedFalsehoods(@RequestParam(value="size", defaultValue="20", required=false)int size,
                                                      @RequestParam(value="page", defaultValue="0", required=false)int page)
     {
         return falsehoodService.getSubmittedFalsehoods(size, page);
     }
 
-    @GetMapping("/Media/id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<FullFalsehood> GetFalsehood(@PathVariable("id") BigInteger id)
     {
         return falsehoodService.getFalsehoodById(id);
