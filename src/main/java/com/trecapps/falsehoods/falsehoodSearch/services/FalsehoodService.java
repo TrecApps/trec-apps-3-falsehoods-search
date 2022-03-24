@@ -8,6 +8,7 @@ import com.trecapps.falsehoods.falsehoodSearch.repos.FalsehoodRepo;
 import com.trecapps.base.InfoResource.models.MediaOutlet;
 import com.trecapps.base.InfoResource.models.PublicFigure;
 import com.trecapps.falsehoods.falsehoodSearch.config.StorageClient;
+import org.hibernate.query.criteria.internal.expression.ExpressionImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import javax.persistence.*;
+import javax.persistence.criteria.*;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class FalsehoodService {
@@ -32,16 +34,94 @@ public class FalsehoodService {
 
 	FalsehoodRecordsRepo recordsRepo;
 
+	TagSupportService tagSupportService;
+
+	@PersistenceContext
+	EntityManager entityManager;
+
 	@Autowired
 	public FalsehoodService(@Autowired FalsehoodRepo fRepo,
 							@Autowired StorageClient s3BucketManager,
-							@Autowired FalsehoodRecordsRepo recordsRepo)
+							@Autowired FalsehoodRecordsRepo recordsRepo,
+							@Autowired TagSupportService tagSupportService1)
 	{
 		this.s3BucketManager = s3BucketManager;
 		this.fRepo = fRepo;
 		this.recordsRepo = recordsRepo;
+		this.tagSupportService = tagSupportService1;
 	}
-	
+
+	public List<Falsehood> getFalsehoodList(SearchFalsehood s)
+	{
+		Set<BigInteger> taggedIds = null;
+
+		if(s.getTerms() != null && s.getTerms().trim().length() > 0)
+		{
+			List<String> terms = tagSupportService.getTerms(s.getTerms());
+
+			TypedQuery<FalsehoodCommonTag> cQuery= tagSupportService.getQuery(terms, FalsehoodCommonTag.class);
+			List<FalsehoodCommonTag> commonTags = cQuery.getResultList();
+
+			TypedQuery<FalsehoodUncommonTag> uQuery= tagSupportService.getQuery(terms, FalsehoodCommonTag.class);
+			List<FalsehoodUncommonTag> uncommonTags = uQuery.getResultList();
+
+			if(commonTags.size() > 0 || uncommonTags.size() > 0)
+				taggedIds = new TreeSet<>();
+
+			for(FalsehoodCommonTag tag : commonTags)
+			{
+				taggedIds.add(tag.getFalsehood().getId());
+			}
+			for(FalsehoodUncommonTag tag: uncommonTags)
+			{
+				taggedIds.add(tag.getFalsehood().getId());
+			}
+		}
+
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Falsehood> criteria = criteriaBuilder.createQuery(Falsehood.class);
+		Root<Falsehood> falsehoodRoot = criteria.from(Falsehood.class);
+
+		List<Predicate> predicates = new ArrayList<>();
+
+		if(s.getAuthor() != null)
+			predicates.add(criteriaBuilder.equal(falsehoodRoot.get("author1"), s.getAuthor()));
+		Date from = s.getFrom(), to = s.getTo();
+
+		if(from != null && to != null)
+			predicates.add(criteriaBuilder.between(falsehoodRoot.get("dateMade"), from, to));
+		else if(from != null)
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(falsehoodRoot.get("dateMade"), from));
+		else if(to != null)
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(falsehoodRoot.get("dateMade"), to));
+
+		if(s.getOutlet() != null)
+			predicates.add(criteriaBuilder.equal(falsehoodRoot.get("outlet"), s.getOutlet()));
+
+		Severity min = s.getMinimum(), max = s.getMinimum();
+
+		if(min != null && max != null)
+			predicates.add(criteriaBuilder.between(falsehoodRoot.get("severity"), max, min));
+		if(min != null)
+			predicates.add(criteriaBuilder.lessThanOrEqualTo(falsehoodRoot.get("severity"), min));
+		if(max != null)
+			predicates.add(criteriaBuilder.greaterThanOrEqualTo(falsehoodRoot.get("severity"), max));
+
+		if(taggedIds != null && !taggedIds.isEmpty()) {
+
+			predicates.add(criteriaBuilder.any(criteria.subquery(Falsehood.class).where(falsehoodRoot.get("id"))).in(taggedIds));
+		}
+
+		criteria.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
+
+
+		TypedQuery<Falsehood> falsehoodQuery = entityManager.createQuery(criteria);
+
+		falsehoodQuery.setMaxResults(s.getNumberOfEntries());
+		falsehoodQuery.setFirstResult(s.getNumberOfEntries() * s.getPage());
+
+		return falsehoodQuery.getResultList();
+	}
 	
 	public List<Falsehood> getConfirmedFalsehoodsBySearchFeatures(SearchFalsehood s)
 	{

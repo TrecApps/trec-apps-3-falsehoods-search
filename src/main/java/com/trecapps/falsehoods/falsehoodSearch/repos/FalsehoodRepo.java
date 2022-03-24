@@ -9,13 +9,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.util.List;
 
 @Repository
 public interface FalsehoodRepo extends JpaRepository<Falsehood, BigInteger> {
-	
+
+
+
+
 	
 	//// Queries where Falsehoods are merely submitted
 	
