@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'org.springframework.boot' version '2.4.2'
+    id 'org.springframework.boot' version '2.5.12'
     id 'jacoco'
 }
 
@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
 
-    compileOnly 'org.projectlombok:lombok:+'
+    implementation 'org.projectlombok:lombok:+'
     annotationProcessor 'org.projectlombok:lombok:+'
 
     implementation 'com.trecapps.base:InfoResource:0.1.2'
@@ -44,9 +44,9 @@ dependencies {
     implementation 'org.hibernate:hibernate-entitymanager:5.4.11.Final'
     implementation 'javax.validation:validation-api:+'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:+'
-    implementation 'com.azure:azure-spring-data-cosmos:+'
 
     implementation 'mysql:mysql-connector-java:+' // mySQL
+    implementation 'com.azure:azure-storage-blob:+'
 
     // Azure Logging
     implementation 'com.microsoft.azure:applicationinsights-spring-boot-starter:+'
