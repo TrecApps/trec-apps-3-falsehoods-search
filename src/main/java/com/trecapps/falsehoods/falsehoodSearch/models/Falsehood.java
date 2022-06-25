@@ -12,7 +12,7 @@ import java.sql.Date;
 
 
 @Entity
-@Table
+@Table(name = "falsehood")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -46,7 +46,7 @@ public class Falsehood implements Comparable<Falsehood>{
 	@Transient 
 	public static final byte ARTICLE = 1;
 	
-	@Column
+	@Column(name = "mediaType")
 	byte mediaType;
 	
 	
@@ -67,23 +67,23 @@ public class Falsehood implements Comparable<Falsehood>{
     Severity severity;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "author1_id")
 	PublicFigure author1;
 	
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "author2_id")
 	PublicFigure author2;
 	
 	@Column
 	String source;
 	
-	@Column
+	@Column(name ="dateMade")
 	Date dateMade;
 	
-	@Column
+	@Column(name = "contentId")
 	String contentId;
 
-	@Column
+	@Column(name = "userId")
 	@NotNull
 	String userId;
 	

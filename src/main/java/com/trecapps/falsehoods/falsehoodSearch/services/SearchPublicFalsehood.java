@@ -1,8 +1,9 @@
 package com.trecapps.falsehoods.falsehoodSearch.services;
 
 
-import com.trecapps.base.InfoResource.models.PublicFigure;
-import com.trecapps.base.FalsehoodModel.models.Severity;
+
+import com.trecapps.falsehoods.falsehoodSearch.models.PublicFigure;
+import com.trecapps.falsehoods.falsehoodSearch.models.Severity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

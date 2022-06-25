@@ -1,9 +1,8 @@
 package com.trecapps.falsehoods.falsehoodSearch.controllers;
 
-import com.trecapps.base.FalsehoodModel.models.Falsehood;
-import com.trecapps.base.FalsehoodModel.models.FullFalsehood;
-import com.trecapps.base.FalsehoodModel.models.FullPublicFalsehood;
-import com.trecapps.base.FalsehoodModel.models.PublicFalsehood;
+
+import com.trecapps.falsehoods.falsehoodSearch.models.FullPublicFalsehood;
+import com.trecapps.falsehoods.falsehoodSearch.models.PublicFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.PublicFalsehoodService;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchPublicFalsehood;
@@ -16,7 +15,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Search/Public")
+@RequestMapping("/Public")
 public class PublicFalsehoodController {
 
     @Autowired
@@ -25,13 +24,13 @@ public class PublicFalsehoodController {
     @PostMapping("/Confirmed")
     public List<PublicFalsehood> searchFalsehoodByParams(@RequestBody SearchPublicFalsehood searchObj)
     {
-        return publicFalsehoodService.searchConfirmedFalsehoodsByAttribute(searchObj);
+        return publicFalsehoodService.getFalsehoodList(searchObj,1);
     }
 
     @PostMapping("/Rejected")
     public List<PublicFalsehood> searchRFalsehoodByParams(@RequestBody SearchPublicFalsehood searchObj)
     {
-        return publicFalsehoodService.searchRejectedFalsehoodsByAttribute(searchObj);
+        return publicFalsehoodService.getFalsehoodList(searchObj,1);
     }
 
     @GetMapping("/SearchSubmitted")

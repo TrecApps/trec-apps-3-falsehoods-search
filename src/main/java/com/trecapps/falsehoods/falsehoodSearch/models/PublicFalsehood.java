@@ -33,21 +33,6 @@ public class PublicFalsehood implements Comparable<PublicFalsehood>{
 	byte status;
 	// Verification Status
 	
-	@Transient 
-	public static final byte SUBMITTED = 0;	// Has been submitted, but not verified as a false hood
-	@Transient 
-	public static final byte VERIFIED = 1;	// Has been verified by staff
-	@Transient 
-	public static final byte CHALLENGED = 2;	// Has been verified, but is now being challenged
-	@Transient 
-	public static final byte REVERIFIED = 3;	// Has been verified and the challenge has failed
-	@Transient 
-	public static final byte MODIFIED = 4;	// Has been modified from an earlier version
-	@Transient 
-	public static final byte OVERTURNED = 5;	// Has previously been verified, but was overturned
-	@Transient
-	public static final byte REJECTED = 6;
-	
 	@ManyToOne
 	@JoinColumn
 	PublicFigure official;

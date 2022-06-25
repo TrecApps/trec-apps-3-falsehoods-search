@@ -30,8 +30,8 @@ dependencies {
     implementation 'org.projectlombok:lombok:+'
     annotationProcessor 'org.projectlombok:lombok:+'
 
-    implementation 'com.trecapps.base:InfoResource:0.1.2'
-    implementation 'com.trecapps.base:FalsehoodModel:0.1.8'
+//    implementation 'com.trecapps.base:InfoResource:0.1.2'
+//    implementation 'com.trecapps.base:FalsehoodModel:0.1.8'
 
 
     // Spring Boot features

@@ -1,7 +1,8 @@
 package com.trecapps.falsehoods.falsehoodSearch.controllers;
 
-import com.trecapps.base.FalsehoodModel.models.Falsehood;
-import com.trecapps.base.FalsehoodModel.models.FullFalsehood;
+
+import com.trecapps.falsehoods.falsehoodSearch.models.Falsehood;
+import com.trecapps.falsehoods.falsehoodSearch.models.FullFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.FalsehoodService;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchFalsehood;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Search/Media")
+@RequestMapping("/Media")
 public class MediaFalsehoodController {
 
     @Autowired
@@ -22,13 +23,13 @@ public class MediaFalsehoodController {
     @PostMapping("/Confirmed")
     public List<Falsehood> searchFalsehoodByParams(@RequestBody SearchFalsehood searchObj)
     {
-        return falsehoodService.getConfirmedFalsehoodsBySearchFeatures(searchObj);
+        return falsehoodService.getFalsehoodList(searchObj, 1);
     }
 
     @PostMapping("/Rejected")
     public List<Falsehood> searchRFalsehoodByParams(@RequestBody SearchFalsehood searchObj)
     {
-        return falsehoodService.getRejectedFalsehoodsBySearchFeatures(searchObj);
+        return falsehoodService.getFalsehoodList(searchObj,-1);
     }
 
     @GetMapping("/SearchSubmitted")
