@@ -10,7 +10,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'jacoco'
 
 group 'com.trecapps.falsehoods'
-version '0.0.2'
+version '0.0.3'
 
 repositories {
     mavenCentral()
@@ -23,6 +23,11 @@ repositories {
             password azureRepoPassword
         }
     }
+}
+
+jar{
+    archiveClassifier=''
+    enabled = true
 }
 
 dependencies {
