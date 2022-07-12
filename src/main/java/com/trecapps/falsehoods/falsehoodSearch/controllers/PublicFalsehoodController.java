@@ -1,8 +1,7 @@
 package com.trecapps.falsehoods.falsehoodSearch.controllers;
 
-
-import com.trecapps.falsehoods.falsehoodSearch.models.FullPublicFalsehood;
-import com.trecapps.falsehoods.falsehoodSearch.models.PublicFalsehood;
+import com.trecapps.base.FalsehoodModel.models.FullPublicFalsehood;
+import com.trecapps.base.FalsehoodModel.models.PublicFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.PublicFalsehoodService;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchPublicFalsehood;

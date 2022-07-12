@@ -1,6 +1,6 @@
 package com.trecapps.falsehoods.falsehoodSearch.services;
 
-import com.trecapps.falsehoods.falsehoodSearch.models.FalsehoodCommonTag;
+import com.trecapps.base.FalsehoodModel.models.FalsehoodCommonTag;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;

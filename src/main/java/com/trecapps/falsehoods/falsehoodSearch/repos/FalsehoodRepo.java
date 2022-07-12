@@ -1,8 +1,6 @@
 package com.trecapps.falsehoods.falsehoodSearch.repos;
 
-
-
-import com.trecapps.falsehoods.falsehoodSearch.models.Falsehood;
+import com.trecapps.base.FalsehoodModel.models.Falsehood;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

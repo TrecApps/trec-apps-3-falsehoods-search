@@ -1,6 +1,6 @@
 package com.trecapps.falsehoods.falsehoodSearch.repos;
 
-import com.trecapps.falsehoods.falsehoodSearch.models.PublicFigure;
+import com.trecapps.base.InfoResource.models.PublicFigure;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

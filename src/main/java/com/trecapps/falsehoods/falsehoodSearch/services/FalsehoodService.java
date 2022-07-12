@@ -2,7 +2,7 @@ package com.trecapps.falsehoods.falsehoodSearch.services;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.trecapps.falsehoods.falsehoodSearch.models.*;
+import com.trecapps.base.FalsehoodModel.models.*;
 import com.trecapps.falsehoods.falsehoodSearch.repos.FalsehoodRecordsRepo;
 import com.trecapps.falsehoods.falsehoodSearch.repos.FalsehoodRepo;
 import com.trecapps.falsehoods.falsehoodSearch.config.StorageClient;
@@ -577,7 +577,7 @@ public class FalsehoodService {
 		if(contents.getStatusCode().is2xxSuccessful())
 			try {
 				return new ResponseEntity<FullFalsehood>(new FullFalsehood(contents.getBody(),
-						fRepo.getById(id), new FalsehoodRecords(id, (byte)0, recordsRepo.retrieveRecords(id))), HttpStatus.OK);
+						fRepo.getById(id), new FalsehoodRecords(id, (byte)0, recordsRepo.retrieveRecords(id)), new ArrayList<>(), new ArrayList<>()), HttpStatus.OK);
 			}catch(JsonProcessingException ex)
 			{
 				return new ResponseEntity<FullFalsehood>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,8 +1,7 @@
 package com.trecapps.falsehoods.falsehoodSearch.controllers;
 
-
-import com.trecapps.falsehoods.falsehoodSearch.models.Falsehood;
-import com.trecapps.falsehoods.falsehoodSearch.models.FullFalsehood;
+import com.trecapps.base.FalsehoodModel.models.Falsehood;
+import com.trecapps.base.FalsehoodModel.models.FullFalsehood;
 import com.trecapps.falsehoods.falsehoodSearch.services.FalsehoodService;
 import com.trecapps.falsehoods.falsehoodSearch.services.SearchFalsehood;
 import org.springframework.beans.factory.annotation.Autowired;
